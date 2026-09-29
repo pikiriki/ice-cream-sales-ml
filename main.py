@@ -38,3 +38,21 @@ print("Baseline test MAE:", baseline_mae)
 
 print("\nTEST RESULTS")
 print(results.round(2).to_string(index=False))
+
+print("\nDataset temperature range in Celsius:")
+print("Minimum:", data["temperature_c"].min())
+print("Maximum:", data["temperature_c"].max())
+print("Predictions outside this range may be unreliable.")
+
+temperature_text = input("\nEnter a temperature in Celsius: ")
+temperature = float(temperature_text)
+
+new_day = pd.DataFrame({
+    "temperature_c": [temperature]
+})
+
+predictions = model.predict(new_day)
+predicted_sales = predictions[0]
+
+print("Temperature in Celsius:", temperature)
+print("Predicted ice-cream sales:", predicted_sales)
