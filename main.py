@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error
 
 data = pd.read_csv("sales.csv")
 
@@ -17,20 +18,23 @@ X_train, X_test, y_train, y_test = train_test_split(
 model = LinearRegression()
 model.fit(X_train, y_train)
 
-slope = model.coef_[0]
-intercept = model.intercept_
+baseline_sales = y_train.mean()
+baseline_predictions = [baseline_sales] * len(X_test)
 
-example_temperature = 26
+test_predictions = model.predict(X_test)
 
-new_day = pd.DataFrame({
-    "temperature_c": [example_temperature]
+model_mae = mean_absolute_error(y_test, test_predictions)
+baseline_mae = mean_absolute_error(y_test, baseline_predictions)
+
+results = pd.DataFrame({
+    "actual_sales": y_test,
+    "predicted_sales": test_predictions,
+    "absolute_error": abs(y_test - test_predictions),
 })
 
-predictions = model.predict(new_day)
-predicted_sales = predictions[0]
+print("Baseline prediction for every test example:", baseline_sales)
+print("Model test MAE:", model_mae)
+print("Baseline test MAE:", baseline_mae)
 
-formula_sales = slope * example_temperature + intercept
-
-print("Temperature in Celsius:", example_temperature)
-print("Predicted ice-cream sales:", predicted_sales)
-print("Estimate from the learned formula:", formula_sales)
+print("\nTEST RESULTS")
+print(results.round(2).to_string(index=False))
