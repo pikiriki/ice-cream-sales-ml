@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
 
 data = pd.read_csv("sales.csv")
 
@@ -13,14 +14,18 @@ X_train, X_test, y_train, y_test = train_test_split(
     random_state=42,
 )
 
-print("TRAINING INPUT SHAPE")
-print(X_train.shape)
+model = LinearRegression()
+model.fit(X_train, y_train)
 
-print("\nTRAINING TARGET SHAPE")
-print(y_train.shape)
+slope = model.coef_[0]
+intercept = model.intercept_
 
-print("\nTEST INPUT SHAPE")
-print(X_test.shape)
+print("Training complete.")
+print("Learned slope:", slope)
+print("Learned intercept:", intercept)
 
-print("\nTEST TARGET SHAPE")
-print(y_test.shape)
+example_temperature = 26
+estimated_sales = slope * example_temperature + intercept
+
+print("\nTemperature in Celsius:", example_temperature)
+print("Sales estimated using the learned formula:", estimated_sales)
