@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error
@@ -56,3 +57,43 @@ predicted_sales = predictions[0]
 
 print("Temperature in Celsius:", temperature)
 print("Predicted ice-cream sales:", predicted_sales)
+
+line_inputs = pd.DataFrame({
+    "temperature_c": [
+        data["temperature_c"].min(),
+        data["temperature_c"].max(),
+    ]
+})
+
+line_predictions = model.predict(line_inputs)
+
+plt.figure(figsize=(8, 5))
+
+plt.scatter(
+    X_train["temperature_c"],
+    y_train,
+    color="blue",
+    label="Training observations",
+)
+
+plt.scatter(
+    X_test["temperature_c"],
+    y_test,
+    color="orange",
+    marker="x",
+    label="Test observations",
+)
+
+plt.plot(
+    line_inputs["temperature_c"],
+    line_predictions,
+    color="black",
+    label="Fitted line",
+)
+
+plt.xlabel("Temperature (°C)")
+plt.ylabel("Ice creams sold")
+plt.title("Synthetic ice-cream sales and fitted line")
+plt.legend()
+plt.tight_layout()
+plt.show()
