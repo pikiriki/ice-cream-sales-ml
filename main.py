@@ -20,12 +20,17 @@ model.fit(X_train, y_train)
 slope = model.coef_[0]
 intercept = model.intercept_
 
-print("Training complete.")
-print("Learned slope:", slope)
-print("Learned intercept:", intercept)
-
 example_temperature = 26
-estimated_sales = slope * example_temperature + intercept
 
-print("\nTemperature in Celsius:", example_temperature)
-print("Sales estimated using the learned formula:", estimated_sales)
+new_day = pd.DataFrame({
+    "temperature_c": [example_temperature]
+})
+
+predictions = model.predict(new_day)
+predicted_sales = predictions[0]
+
+formula_sales = slope * example_temperature + intercept
+
+print("Temperature in Celsius:", example_temperature)
+print("Predicted ice-cream sales:", predicted_sales)
+print("Estimate from the learned formula:", formula_sales)
