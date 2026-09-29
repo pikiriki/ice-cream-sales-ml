@@ -2,18 +2,17 @@ import pandas as pd
 
 data = pd.read_csv("sales.csv")
 
-print("FIRST FIVE OBSERVATIONS")
-print(data.head())
+X = data[["temperature_c"]]
+y = data["ice_creams_sold"]
 
-print("\nCOLUMN NAMES")
-print(data.columns.tolist())
+print("INPUT: TEMPERATURE")
+print(X.head())
 
-print("\nNUMBER OF OBSERVATIONS")
-print(len(data))
+print("\nTARGET: SALES")
+print(y.head())
 
-print("\nMISSING VALUES PER COLUMN")
-print(data.isna().sum())
+print("\nINPUT SHAPE")
+print(X.shape)
 
-print("\nTEMPERATURE RANGE")
-print("Minimum:", data["temperature_c"].min())
-print("Maximum:", data["temperature_c"].max())
+print("\nTARGET SHAPE")
+print(y.shape)
